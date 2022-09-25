@@ -88,6 +88,12 @@
       <version>${junit.platform.version}</version>
       <scope>test</scope>
     </dependency>
+
+    <dependency>
+      <groupId>com.heroku.sdk</groupId>
+      <artifactId>heroku-maven-plugin</artifactId>
+      <version>3.0.4</version>
+    </dependency>
   </dependencies>
 
   <build>
