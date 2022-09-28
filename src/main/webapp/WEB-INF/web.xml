@@ -11,4 +11,5 @@
         <servlet-name>resumeServlet</servlet-name>
         <url-pattern>/resumes</url-pattern>
     </servlet-mapping>
+    <absolute-ordering />
 </web-app>

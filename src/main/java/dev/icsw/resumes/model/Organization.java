@@ -3,11 +3,15 @@ package dev.icsw.resumes.model;
 import dev.icsw.resumes.util.UtilDates;
 import dev.icsw.resumes.util.XmlLocalDateAdapter;
 
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+// import jakarta.xml.bind.annotation.XmlAccessType;
+// import jakarta.xml.bind.annotation.XmlAccessorType;
+// import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import java.io.Serial;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -18,7 +22,6 @@ import java.util.Objects;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
-    @Serial
     private static final long serialVersionUID = 1L;
 
     public static final Organization EMPTY = new Organization("", "", Activity.EMPTY);
@@ -71,7 +74,7 @@ public class Organization implements Serializable {
 
     @XmlAccessorType(XmlAccessType.FIELD)
     public static class Activity implements Serializable {
-        @Serial
+
         private static final long serialVersionUID = 1L;
         public static final Activity EMPTY = new Activity();
         @XmlJavaTypeAdapter(XmlLocalDateAdapter.class)
@@ -89,11 +92,21 @@ public class Organization implements Serializable {
         }
 
         public Activity(int startYear, Month startMonth, int endYear, Month endMonth, String title, String description) {
-            int lastDayOfMonth = switch (endMonth.getValue()) {
-                case 2 -> 28;
-                case 4, 6, 9, 11 -> 30;
-                default -> 31;
-            };
+            int lastDayOfMonth;
+            switch (endMonth.getValue()) {
+                case 2:
+                    lastDayOfMonth = 28;
+                    break;
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    lastDayOfMonth = 30;
+                    break;
+                default:
+                    lastDayOfMonth = 31;
+            }
+
             this.startDate = UtilDates.of(startYear, startMonth, 1);
             this.endDate = UtilDates.of(endYear, endMonth, lastDayOfMonth);
             this.title = title;

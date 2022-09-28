@@ -26,21 +26,27 @@ public class DataStreamSerializer implements StreamSerializer {
                 dataOutStream.writeUTF(sectionType.name());
                 AbstractSection sectionValue = entry.getValue();
                 switch (sectionType) {
-                    case PERSONAL, OBJECTIVE ->
-                            dataOutStream.writeUTF(((TextSection) sectionValue).getText());
-                    case ACHIEVEMENTS, QUALIFICATIONS ->
-                            writeCollection(dataOutStream, ((ListSection) sectionValue).getContent(), dataOutStream::writeUTF);
-                    case EXPERIENCE, EDUCATION ->
-                            writeCollection(dataOutStream, ((OrganizationSection) sectionValue).getOrganizations(), org -> {
-                                dataOutStream.writeUTF(org.getHomePage().getName());
-                                dataOutStream.writeUTF(org.getHomePage().getUrl());
-                                writeCollection(dataOutStream, org.getActivities(), activity -> {
-                                    writeLocalDate(dataOutStream, activity.getStartDate());
-                                    writeLocalDate(dataOutStream, activity.getEndDate());
-                                    dataOutStream.writeUTF(activity.getTitle());
-                                    dataOutStream.writeUTF(activity.getDescription());
-                                });
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        dataOutStream.writeUTF(((TextSection) sectionValue).getText());
+                        break;
+                    case ACHIEVEMENTS:
+                    case QUALIFICATIONS:
+                        writeCollection(dataOutStream, ((ListSection) sectionValue).getContent(), dataOutStream::writeUTF);
+                        break;
+                    case EXPERIENCE:
+                    case EDUCATION:
+                        writeCollection(dataOutStream, ((OrganizationSection) sectionValue).getOrganizations(), org -> {
+                            dataOutStream.writeUTF(org.getHomePage().getName());
+                            dataOutStream.writeUTF(org.getHomePage().getUrl());
+                            writeCollection(dataOutStream, org.getActivities(), activity -> {
+                                writeLocalDate(dataOutStream, activity.getStartDate());
+                                writeLocalDate(dataOutStream, activity.getEndDate());
+                                dataOutStream.writeUTF(activity.getTitle());
+                                dataOutStream.writeUTF(activity.getDescription());
                             });
+                        });
+                        break;
                 }
             });
         }
@@ -95,20 +101,27 @@ public class DataStreamSerializer implements StreamSerializer {
     }
 
     private AbstractSection readSection(DataInputStream dataInStream, SectionType sectionType) throws IOException {
-        return switch (sectionType) {
-            case PERSONAL, OBJECTIVE -> new TextSection(dataInStream.readUTF());
-            case ACHIEVEMENTS, QUALIFICATIONS -> new ListSection(readList(dataInStream, dataInStream::readUTF));
-            case EXPERIENCE, EDUCATION -> new OrganizationSection(
-                    readList(dataInStream, () -> new Organization(
-                            new Link(dataInStream.readUTF(), dataInStream.readUTF()),
-                            readList(dataInStream, () -> new Organization.Activity(
-                                    readLocalDate(dataInStream),
-                                    readLocalDate(dataInStream),
-                                    dataInStream.readUTF(),
-                                    dataInStream.readUTF()
-                            ))
-                    )));
-        };
+        switch (sectionType) {
+            case PERSONAL:
+            case OBJECTIVE:
+                return new TextSection(dataInStream.readUTF());
+            case ACHIEVEMENTS:
+            case QUALIFICATIONS:
+                return new ListSection(readList(dataInStream, dataInStream::readUTF));
+            case EXPERIENCE:
+            case EDUCATION:
+                return new OrganizationSection(
+                        readList(dataInStream, () -> new Organization(
+                                new Link(dataInStream.readUTF(), dataInStream.readUTF()),
+                                readList(dataInStream, () -> new Organization.Activity(
+                                        readLocalDate(dataInStream),
+                                        readLocalDate(dataInStream),
+                                        dataInStream.readUTF(),
+                                        dataInStream.readUTF()
+                                ))
+                        )));
+            default: throw new RuntimeException("Invalid Resume Section");
+        }
     }
 
     private <T> List<T> readList(DataInputStream dataInStream, ListItemReader<T> itemReader) throws IOException {

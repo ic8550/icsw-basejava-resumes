@@ -63,10 +63,16 @@ public class ResumeServlet extends HttpServlet {
                 r.getSections().remove(sectionType);
             } else {
                 switch (sectionType) {
-                    case OBJECTIVE, PERSONAL -> r.addSection(sectionType, new TextSection(requestParameter));
-                    case ACHIEVEMENTS, QUALIFICATIONS ->
-                            r.addSection(sectionType, new ListSection(requestParameter.split("\\n")));
-                    case EDUCATION, EXPERIENCE -> {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        r.addSection(sectionType, new TextSection(requestParameter));
+                        break;
+                    case ACHIEVEMENTS:
+                    case QUALIFICATIONS:
+                        r.addSection(sectionType, new ListSection(requestParameter.split("\\n")));
+                        break;
+                    case EDUCATION:
+                    case EXPERIENCE:
                         List<Organization> organizations = new ArrayList<>();
                         String[] urls = request.getParameterValues(sectionType.name() + "url");
                         for (int i = 0; i < requestParameterValues.length; i++) {
@@ -94,7 +100,7 @@ public class ResumeServlet extends HttpServlet {
                             }
                         }
                         r.addSection(sectionType, new OrganizationSection(organizations));
-                    }
+                        break;
                 }
             }
         }
@@ -118,33 +124,35 @@ public class ResumeServlet extends HttpServlet {
         }
         Resume r;
         switch (action) {
-            case "delete" -> {
+            case "delete":
                 storage.delete(uuid);
                 response.sendRedirect("resumes");
                 return;
-            }
-            case "add" -> {
+            case "add":
                 r = Resume.EMPTY;
-            }
-            case "view" -> {
+                break;
+            case "view":
                 r = storage.get(uuid);
-            }
-            case "edit" -> {
+                break;
+            case "edit":
                 r = storage.get(uuid);
                 for (SectionType sectionType : SectionType.values()) {
                     AbstractSection section = r.getSection(sectionType);
                     switch (sectionType) {
-                        case OBJECTIVE, PERSONAL -> {
+                        case OBJECTIVE:
+                        case PERSONAL:
                             if (section == null) {
                                 section = TextSection.EMPTY;
                             }
-                        }
-                        case ACHIEVEMENTS, QUALIFICATIONS -> {
+                            break;
+                        case ACHIEVEMENTS:
+                        case QUALIFICATIONS:
                             if (section == null) {
                                 section = ListSection.EMPTY;
                             }
-                        }
-                        case EXPERIENCE, EDUCATION -> {
+                            break;
+                        case EXPERIENCE:
+                        case EDUCATION:
                             // Turn the existing organization section into the one that is nearly
                             // the same as the original, except for:
                             // 1) it has an empty organization as a first organization of the organizations list;
@@ -162,12 +170,14 @@ public class ResumeServlet extends HttpServlet {
                                 }
                             }
                             section = new OrganizationSection(orgListWithFirstOrgEmpty);
-                        }
+                            break;
                     }
                     r.addSection(sectionType, section);
+                    break;
                 }
-            }
-            default -> throw new IllegalArgumentException("Action " + action + " is illegal");
+                break;
+            default:
+                throw new IllegalArgumentException("Action " + action + " is illegal");
         }
         request.setAttribute("resume", r);
         request
