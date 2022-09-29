@@ -9,13 +9,13 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/edit-resume-styles.css">
 
-    <jsp:useBean id="resume" type="dev.icsw.resumes.model.Resume" scope="request"/>
-    <%-- <% --%>
-    <%--   Resume resume = (Resume) pageContext.getAttribute("resume", PageContext.REQUEST_SCOPE); --%>
-    <%--   if (resume == null) { --%>
-    <%--     throw new ServletException("Bean resume not found within scope"); --%>
-    <%--   } --%>
-    <%-- %> --%>
+    <%-- <jsp:useBean id="resume" type="dev.icsw.resumes.model.Resume" scope="request"/> --%>
+    <%
+      Resume resume = (Resume) pageContext.getAttribute("resume", PageContext.REQUEST_SCOPE);
+      if (resume == null) {
+        throw new ServletException("Bean resume not found within scope");
+      }
+    %>
 
     <title>Резюме ${resume.fullName}</title>
   </head>
@@ -42,7 +42,7 @@
 
           <c:forEach var="sectionType" items="<%=SectionType.values()%>">
             <c:set var="section" value="${resume.getSection(sectionType)}"/>
-           <%-- <jsp:useBean id="section" type="dev.icsw.resumes.model.AbstractSection"/> --%>
+            <%-- <jsp:useBean id="section" type="dev.icsw.resumes.model.AbstractSection"/> --%>
             <%
               AbstractSection section = (AbstractSection) pageContext.getAttribute("section");
               if (section == null) {

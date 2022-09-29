@@ -56,7 +56,7 @@ public class UtilResumes {
         return resume;
     }
 
-        public static Resume fillWithNumber(int num) {
+    public static Resume fillWithNumber(int num) {
         Resume resume = fillWithNumberContacts(num);
 
         // Fill Objective
