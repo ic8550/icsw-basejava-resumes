@@ -21,9 +21,8 @@
     <junit.platform.version>1.8.2</junit.platform.version>
     <skipTests>true</skipTests>
     <tomcat.version>9.0.52</tomcat.version>
-    <heroku.appName>heroku---resumes-01</heroku.appName>
+    <!-- <heroku.appName>heroku-&#45;&#45;resumes-01</heroku.appName> -->
   </properties>
-
 
   <dependencies>
     <!-- https://mvnrepository.com/artifact/jakarta.xml.bind/jakarta.xml.bind-api -->
