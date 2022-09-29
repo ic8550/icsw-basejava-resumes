@@ -46,13 +46,13 @@
             </tr>
             <c:forEach var="resumeObj" items="${resumeList}">
 
-              <%-- <jsp:useBean id="resumeObj" type="dev.icsw.resumes.model.Resume" scope="page"/> --%>
-              <%
-                Resume resumeObj = (Resume) pageContext.getAttribute("resumeObj");
-                if (resumeObj == null) {
-                  throw new ServletException("bean resumeObj not found within scope");
-                }
-              %>
+              <jsp:useBean id="resumeObj" type="dev.icsw.resumes.model.Resume" scope="page"/>
+              <%-- <% --%>
+              <%--   Resume resumeObj = (Resume) pageContext.getAttribute("resumeObj"); --%>
+              <%--   if (resumeObj == null) { --%>
+              <%--     throw new ServletException("bean resumeObj not found within scope"); --%>
+              <%--   } --%>
+              <%-- %> --%>
 
               <tr class="t-body">
                 <td class="name-column">
