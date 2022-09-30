@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>dev.icsw.basejavaresumes</groupId>
-  <artifactId>basejavaresumes</artifactId>
+  <groupId>dev.icsw</groupId>
+  <artifactId>icsw-basejava-resumes</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>basejavaresumes Maven Webapp</name>
+  <name>icsw-basejava-resumes</name>
   <!-- FIXME change it to the project's website -->
   <!-- <url>http://www.example.com</url> -->
 
@@ -21,7 +21,6 @@
     <junit.platform.version>1.8.2</junit.platform.version>
     <skipTests>true</skipTests>
     <tomcat.version>9.0.52</tomcat.version>
-    <!-- <heroku.appName>heroku-&#45;&#45;resumes-01</heroku.appName> -->
   </properties>
 
   <dependencies>
@@ -68,13 +67,6 @@
       <version>2.3.3</version>
       <scope>provided</scope>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/org.glassfish/javax.servlet.jsp -->
-    <!-- <dependency> -->
-    <!--   <groupId>org.glassfish</groupId> -->
-    <!--   <artifactId>javax.servlet.jsp</artifactId> -->
-    <!--   <version>3.1.1</version> -->
-    <!--   <scope>provided</scope> -->
-    <!-- </dependency> -->
 
     <!-- https://mvnrepository.com/artifact/org.glassfish.web/javax.servlet.jsp.jstl -->
     <dependency>
@@ -104,16 +96,10 @@
       <artifactId>heroku-maven-plugin</artifactId>
       <version>3.0.4</version>
     </dependency>
-
-    <!-- <dependency> -->
-    <!--   <groupId>com.heroku</groupId> -->
-    <!--   <artifactId>webapp-runner</artifactId> -->
-    <!--   <version>9.0.52.1</version> -->
-    <!-- </dependency> -->
   </dependencies>
 
   <build>
-    <finalName>basejavaresumes</finalName>
+    <finalName>icsw-basejava-resumes</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -144,27 +130,6 @@
           </execution>
         </executions>
       </plugin>
-
-      <!-- <plugin> -->
-      <!--   <groupId>org.apache.maven.plugins</groupId> -->
-      <!--   <artifactId>maven-dependency-plugin</artifactId> -->
-      <!--   <version>3.3.0</version> -->
-      <!--   <configuration> -->
-      <!--     <artifactItems> -->
-      <!--       <artifactItem> -->
-      <!--         <groupId>com.heroku</groupId> -->
-      <!--         <artifactId>webapp-runner</artifactId> -->
-      <!--         <version>9.0.52.1</version> -->
-      <!--         <type>jar</type> -->
-      <!--         &lt;!&ndash; <classifier> [classifier - optional] </classifier> &ndash;&gt; -->
-      <!--         &lt;!&ndash; <overWrite>[ true or false ]</overWrite> &ndash;&gt; -->
-      <!--         &lt;!&ndash; <outputDirectory>[ output directory ]</outputDirectory> &ndash;&gt; -->
-      <!--         <destFileName>webapp-runner.jar</destFileName> -->
-      <!--       </artifactItem> -->
-      <!--     </artifactItems> -->
-      <!--     &lt;!&ndash; other configurations here &ndash;&gt; -->
-      <!--   </configuration> -->
-      <!-- </plugin> -->
 
       <!-- <plugin> -->
       <!--   <groupId>com.heroku.sdk</groupId> -->

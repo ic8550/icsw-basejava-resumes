@@ -1,15 +1,21 @@
-create table if not exists resume
+CREATE TABLE IF NOT EXISTS resume
 (
-    uuid      char(36) not null primary key,
-    full_name TEXT     not null
+    uuid      CHAR(36) PRIMARY KEY,
+    full_name TEXT
 );
 
-create table if not exists contact
+CREATE TABLE IF NOT EXISTS contact
 (
-    id          serial primary key not null,
-    resume_uuid char(36)           not null references resume (uuid) on delete cascade,
-    type        text               not null,
-    value       text               not null
+    id          SERIAL PRIMARY KEY,
+    type        TEXT     NOT NULL,
+    value       TEXT     NOT NULL,
+    resume_uuid CHAR(36) NOT NULL REFERENCES resume ON UPDATE RESTRICT ON DELETE CASCADE
 );
 
-create unique index contact_ind__resume_uuid__type on contact (resume_uuid, type);
+CREATE TABLE IF NOT EXISTS section
+(
+    id          SERIAL PRIMARY KEY,
+    resume_uuid CHAR(36) NOT NULL REFERENCES resume ON DELETE CASCADE,
+    type        TEXT     NOT NULL,
+    content     TEXT     NOT NULL
+);
