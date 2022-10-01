@@ -24,7 +24,8 @@ public class AppConfig {
             Properties appProps = new Properties();
             appProps.load(inputStream);
             storageDir = new File(appProps.getProperty("storage.dir"));
-            storage = new SqlStorage(appProps.getProperty("db.url"), appProps.getProperty("db.user"), appProps.getProperty("db.password"));
+            // storage = new SqlStorage(appProps.getProperty("db.url"), appProps.getProperty("db.user"), appProps.getProperty("db.password"));
+            storage = new SqlStorage(System.getenv("DATABASE_URL"), System.getenv("DATABASE_USER"), System.getenv("DATABASE_PASSWORD"));
         } catch (IOException e) {
             throw new IllegalStateException("Invalid config file " + APP_PROPS_FILE);
         }
